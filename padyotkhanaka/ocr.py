@@ -31,10 +31,23 @@ def get_ocr_content(texts: list[Any]) -> str:
 
 
 def get_ocr_lines(texts: list[Any]) -> list[str]:
-    """Returns the OCR content from the response."""
+    """Returns the OCR content from the response line by line."""
 
     if texts:
         content = texts[0].description.split("\n")
         return [line.strip() for line in content if line]
     else:
         raise ValueError("No text found.")
+
+
+def get_text_from_page_range(
+    image_diractory: str, start_page: int, end_page: int
+) -> list[str]:
+    """Returns the OCR content from specified page range."""
+
+    texts = []
+    for i in range(start_page, end_page + 1):
+        print("Processing page: ", i)
+        text = ocr_single(image_diractory + "/page_" + str(i).zfill(3) + ".png")
+        texts += get_ocr_lines(text)
+    return texts
