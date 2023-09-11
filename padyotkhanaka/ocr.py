@@ -5,7 +5,7 @@ from typing import Any
 from google.cloud import vision  # pylint: disable=import-error
 
 
-def ocr_single(in_path: str) -> None | list[Any]:
+def ocr_single(in_path: str) -> list[Any]:
     """Detects text in a single image."""
 
     client = vision.ImageAnnotatorClient()
@@ -19,3 +19,22 @@ def ocr_single(in_path: str) -> None | list[Any]:
     texts = response.text_annotations
 
     return texts
+
+
+def get_ocr_content(texts: list[Any]) -> str:
+    """Returns the OCR content from the response."""
+
+    if texts:
+        return texts[0].description
+    else:
+        raise ValueError("No text found.")
+
+
+def get_ocr_lines(texts: list[Any]) -> list[str]:
+    """Returns the OCR content from the response."""
+
+    if texts:
+        content = texts[0].description.split("\n")
+        return [line.strip() for line in content if line]
+    else:
+        raise ValueError("No text found.")
