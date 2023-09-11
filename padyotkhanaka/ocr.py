@@ -49,5 +49,6 @@ def get_text_from_page_range(
     for i in range(start_page, end_page + 1):
         print("Processing page: ", i)
         text = ocr_single(image_diractory + "/page_" + str(i).zfill(3) + ".png")
-        texts += get_ocr_lines(text)
+        text = get_ocr_lines(text)
+        texts.extend(text)
     return texts

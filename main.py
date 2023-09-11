@@ -1,7 +1,6 @@
 """The main file for the project."""
 
 import os
-import re
 
 from akshara.varnakaarya import count_svaras
 
@@ -16,15 +15,23 @@ if not os.path.exists("resources/images"):
 texts = ocr.ocr_single("resources/images/page_020.png")
 
 with open("scratch.txt", "w", encoding="utf-8") as file:
-    texts = ocr.get_text_from_page_range("resources/images", 20, 25)
-    punctuation_pattern = r'[!"#$%&\'()*+,-./:;<=>?@[\\]^_`{|}~0-9\'"]'
+    texts = ocr.get_text_from_page_range("resources/images", 20, 70)
 
     for text in texts:
+        if len(text) < 17:
+            continue
+        text = text.replace("|", "।")
+        text = text.replace("।।", "॥")
+        text = text.replace("ँ", "")
         try:
             count = count_svaras(text)
             if count == 17:
                 file.write(text + "\n")
         except AssertionError:
-            pass
-
-    print(len(texts))
+            if (
+                "'" not in list(text)
+                and "‘" not in list(text)
+                and text[-1] in ["।", "॥"]
+                and len(text) < 50
+            ):
+                file.write(text + "\n")
