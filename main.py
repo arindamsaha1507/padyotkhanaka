@@ -2,7 +2,7 @@
 
 import os
 
-from akshara.varnakaarya import count_svaras
+from akshara.varnakaarya import count_svaras, get_vinyaasa
 
 from padyotkhanaka import ocr
 from padyotkhanaka import page_extractor
@@ -15,7 +15,7 @@ if not os.path.exists("resources/images"):
 texts = ocr.ocr_single("resources/images/page_020.png")
 
 with open("scratch.txt", "w", encoding="utf-8") as file:
-    texts = ocr.get_text_from_page_range("resources/images", 20, 70)
+    texts = ocr.get_text_from_page_range("resources/images", 20, 109)
 
     for text in texts:
         if len(text) < 17:
@@ -23,6 +23,11 @@ with open("scratch.txt", "w", encoding="utf-8") as file:
         text = text.replace("|", "।")
         text = text.replace("।।", "॥")
         text = text.replace("ँ", "")
+        text = text.replace(":", "ः")
+        text = text.replace("s", "ऽ")
+        text = text.replace("ॉ", " ा")
+        text = text.replace("३", "०")
+        text = text.replace("ॅ", "")
         try:
             count = count_svaras(text)
             if count == 17:
@@ -32,6 +37,8 @@ with open("scratch.txt", "w", encoding="utf-8") as file:
                 "'" not in list(text)
                 and "‘" not in list(text)
                 and text[-1] in ["।", "॥"]
-                and len(text) < 50
+                and 15 < len(text) < 19
             ):
-                file.write(text + "\n")
+                file.write("***" + text + "\n")
+                print(list(text))
+                # print(get_vinyaasa(text))
