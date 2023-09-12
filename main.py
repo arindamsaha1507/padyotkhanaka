@@ -12,8 +12,6 @@ if not os.path.exists("resources/images"):
     images = page_extractor.convert_pdf_to_images("resources/Meghadootam.pdf")
     page_extractor.save_images(images, "resources/images")
 
-texts = ocr.ocr_single("resources/images/page_020.png")
-
 with open("scratch.txt", "w", encoding="utf-8") as file:
     texts = ocr.get_text_from_page_range("resources/images", 20, 109)
 
