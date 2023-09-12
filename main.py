@@ -2,7 +2,7 @@
 
 import os
 
-from akshara.varnakaarya import count_svaras, get_vinyaasa
+from akshara.varnakaarya import count_svaras
 
 from padyotkhanaka import ocr
 from padyotkhanaka import page_extractor
